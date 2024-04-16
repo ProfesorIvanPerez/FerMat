@@ -1,0 +1,47 @@
+// Pines donde están conectados los potenciómetros
+const int potRed = A0; // Potenciómetro para el color Rojo
+const int potGreen = A1; // Potenciómetro para el color Verde
+const int potBlue = A2; // Potenciómetro para el color Azul
+
+// Pines para los colores del LED RGB
+const int pinRed = 9; // Pin para el LED Rojo
+const int pinGreen = 10; // Pin para el LED Verde
+const int pinBlue = 11; // Pin para el LED Azul
+
+void setup() {
+  // Inicializa los pines del LED como salidas
+  pinMode(pinRed, OUTPUT);
+  pinMode(pinGreen, OUTPUT);
+  pinMode(pinBlue, OUTPUT);
+
+  // Inicia comunicación serial (opcional para depuración)
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Lee los valores de los potenciómetros
+  int valRed = analogRead(potRed);
+  int valGreen = analogRead(potGreen);
+  int valBlue = analogRead(potBlue);
+
+  // Mapea los valores (0 - 1023) a un rango (0 - 255) para PWM
+  int pwmRed = map(valRed, 0, 1023, 0, 255);
+  int pwmGreen = map(valGreen, 0, 1023, 0, 255);
+  int pwmBlue = map(valBlue, 0, 1023, 0, 255);
+
+  // Ajusta los colores del LED según los valores de los potenciómetros
+  analogWrite(pinRed, pwmRed);
+  analogWrite(pinGreen, pwmGreen);
+  analogWrite(pinBlue, pwmBlue);
+
+  // Opcional: Imprimir valores en el Monitor Serial para depuración
+  Serial.print("Rojo: ");
+  Serial.print(pwmRed);
+  Serial.print(", Verde: ");
+  Serial.print(pwmGreen);
+  Serial.print(", Azul: ");
+  Serial.println(pwmBlue);
+
+  // Pequeña pausa antes de leer los valores nuevamente
+  delay(10);
+}
