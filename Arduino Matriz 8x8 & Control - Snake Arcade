@@ -1,0 +1,84 @@
+#include <LedControl.h> // Incluye la librería para controlar la matriz LED
+
+// Inicialización del controlador de la matriz LED
+LedControl lc = LedControl(12, 11, 10, 1); // Pins: DIN=12, CLK=11, CS=10, Número de Dispositivos=1
+
+// Variables del juego
+int snakeX[64] = {4, 4, 4, 4}; // Array que guarda las posiciones X de la serpiente
+int snakeY[64] = {4, 3, 2, 1}; // Array que guarda las posiciones Y de la serpiente
+int snakeLength = 4; // Longitud inicial de la serpiente
+int foodX = random(1, 8); // Posición X inicial del alimento, aleatoria
+int foodY = random(1, 8); // Posición Y inicial del alimento, aleatoria
+
+// Dirección inicial de la serpiente
+int dx = 1; // Movimiento horizontal inicial
+int dy = 0; // Movimiento vertical inicial
+int lastMoveTime = 0; // Tiempo desde el último movimiento
+const int moveInterval = 200; // Tiempo en ms entre cambios de dirección permitidos
+
+// Pines para el joystick
+const int joystickXPin = A0; // Pin analógico para el eje X del joystick
+const int joystickYPin = A1; // Pin analógico para el eje Y del joystick
+
+void setup() {
+  lc.shutdown(0, false); // Desactiva el modo de ahorro de energía del MAX7219
+  lc.setIntensity(0, 8); // Establece la intensidad del brillo de la matriz LED (0-15)
+  lc.clearDisplay(0); // Limpia la matriz LED
+  pinMode(joystickXPin, INPUT); // Configura el pin del eje X del joystick como entrada
+  pinMode(joystickYPin, INPUT); // Configura el pin del eje Y del joystick como entrada
+  placeFood(); // Coloca el primer alimento en la matriz
+}
+
+void loop() {
+  int xVal = analogRead(joystickXPin); // Lee el valor del eje X del joystick
+  int yVal = analogRead(joystickYPin); // Lee el valor del eje Y del joystick
+
+  if (millis() - lastMoveTime > moveInterval) { // Controla el intervalo de tiempo para actualizar la dirección
+    updateDirection(xVal, yVal);
+    lastMoveTime = millis();
+  }
+
+  moveSnake(); // Mueve la serpiente
+  if (snakeX[0] == foodX && snakeY[0] == foodY) { // Verifica si la serpiente come el alimento
+    snakeLength++; // Aumenta la longitud de la serpiente
+    placeFood(); // Coloca nuevo alimento
+  }
+  drawGame(); // Dibuja la serpiente y el alimento en la matriz
+  delay(200); // Retraso para controlar la velocidad del juego
+}
+
+void updateDirection(int xVal, int yVal) { // Actualiza la dirección de la serpiente basada en la entrada del joystick
+  if (xVal < 400 && dx == 0) { dx = -1; dy = 0; } // Mover izquierda
+  else if (xVal > 600 && dx == 0) { dx = 1; dy = 0; } // Mover derecha
+  else if (yVal < 400 && dy == 0) { dy = -1; dx = 0; } // Mover arriba
+  else if (yVal > 600 && dy == 0) { dy = 1; dx = 0; } // Mover abajo
+}
+
+void moveSnake() { // Mueve la serpiente en la dirección actual
+  for (int i = snakeLength; i > 0; i--) {
+    snakeX[i] = snakeX[i-1];
+    snakeY[i] = snakeY[i-1];
+  }
+  snakeX[0] += dx;
+  snakeY[0] += dy;
+}
+
+void placeFood() { // Coloca el alimento en una posición aleatoria de la matriz
+  foodX = random(8);
+  foodY = random(8);
+}
+
+void drawGame() { // Dibuja la serpiente y el alimento en la matriz
+  lc.clearDisplay(0);
+  for (int i = 0; i < snakeLength; i++) {
+    lc.setLed(0, snakeY[i], snakeX[i], true);
+  }
+  lc.setLed(0, foodY, foodX, true);
+}
+
+// Información del proyecto
+// Carrera de Pedagogía en Matemática, Mención Informática Educativa
+// Universidad Metropolitana de Ciencias de la Educación
+// Profesor Iván Pérez
+// Email: iperez@umce.cl
+// Código depurado por IA Mediante Chat GPT
