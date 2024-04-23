@@ -1,0 +1,30 @@
+#include <Servo.h>  // Incluye la biblioteca Servo para controlar el servo motor
+
+Servo myServo;  // Crea un objeto de la clase Servo para manejar el servo
+
+void setup() {
+  myServo.attach(9);  // Asocia el pin 9 del Arduino al servo motor
+  // Configura el servo para comenzar en 0 grados
+  myServo.write(0);
+  delay(1000); // Espera un segundo para permitir que el servo alcance la posición inicial
+}
+
+void loop() {
+  // Mover el servo gradualmente de 0 a 180 grados
+  for (int angle = 0; angle <= 180; angle++) {
+    myServo.write(angle);  // Mueve el servo a la posición 'angle'
+    delay(15);  // Espera 15ms para que el servo alcance la posición
+  }
+
+  // Pausa en el extremo antes de moverse de regreso
+  delay(1000);
+
+  // Mover el servo gradualmente de 180 a 0 grados
+  for (int angle = 180; angle >= 0; angle--) {
+    myServo.write(angle);
+    delay(15);
+  }
+
+  // Pausa en el extremo antes de repetir el ciclo
+  delay(1000);
+}
