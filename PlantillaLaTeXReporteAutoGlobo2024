@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{lipsum} % Paquete para generar texto de ejemplo Lorem Ipsum
+\usepackage{hyperref} % Para enlaces clicables en el PDF
+\usepackage{fancyhdr} % Para encabezado y pie de página
+\usepackage{setspace} % Para ajustar el interlineado
+
+% Configuración de márgenes
+\geometry{a4paper, left=25mm, right=25mm, top=25mm, bottom=25mm}
+
+% Título y autor del documento
+\title{Informe del Experimento del "Auto Impulsado por un Globo"}
+\author{
+    \large Tus nombres \\
+    \small Universidad Metropolitana de Ciencias de la Educación \\
+    \small \texttt{correo1@umce.cl, correo2@umce.cl, correo3@umce.cl}
+}
+\date{} % Opcional: si se deja en blanco no se mostrará la fecha
+
+% Paquete para configurar el índice
+\usepackage{tocloft}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Puntos entre los títulos de sección y sus números de página
+
+% Configuración del encabezado y pie de página
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{UMCE} % Encabezado: UMCE
+\fancyfoot[C]{Departamento de Matemática - Profesor Iván Pérez} % Pie de página: Departamento de Matemática - Profesor Iván Pérez
+\fancyfoot[R]{\thepage} % Número de página a la derecha
+
+% Configuración del espacio entre líneas
+\setstretch{1.5}
+
+\begin{document}
+
+% Portada del documento
+\maketitle
+
+% Resumen en español
+\section*{Resumen}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet risus vitae ante posuere, ut faucibus eros tristique. Phasellus vitae diam non velit ultricies viverra. Nullam convallis libero a nunc pellentesque, quis ultricies sem tempor. 
+
+% Abstract en inglés
+\section*{Abstract}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet risus vitae ante posuere, ut faucibus eros tristique. Phasellus vitae diam non velit ultricies viverra. Nullam convallis libero a nunc pellentesque, quis ultricies sem tempor. 
+
+% Índice
+\tableofcontents
+\newpage
+
+% Presentación del experimento
+\section{Presentación del Experimento}
+\lipsum[3-4]
+
+% Toma de datos
+\section{Toma de Datos}
+\lipsum[5-6]
+
+% Gráficas
+\section{Gráficas}
+\lipsum[7]
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{grafica1.png}
+        \caption{Gráfica 1}
+        \label{fig:grafica1}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{grafica2.png}
+        \caption{Gráfica 2}
+        \label{fig:grafica2}
+    \end{subfigure}
+    \caption{Gráficas de ejemplo}
+    \label{fig:graficas}
+\end{figure}
+
+% Análisis
+\section{Análisis}
+\lipsum[8-9]
+
+% Conclusiones
+\section{Conclusiones}
+\lipsum[10-11]
+
+\end{document}
