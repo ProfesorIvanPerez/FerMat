@@ -1,0 +1,38 @@
+#include <Servo.h> // Importa la librería de Servo
+
+Servo servo1; // Declara un objeto para el primer servo
+Servo servo2; // Declara un objeto para el segundo servo
+
+int joystickX = A0; // Declara una variable para el pin analógico del joystick en el eje X
+int joystickY = A1; // Declara una variable para el pin analógico del joystick en el eje Y
+
+int joystickValX; // Almacena el valor actual del joystick en el eje X
+int joystickValY; // Almacena el valor actual del joystick en el eje Y
+
+int servoPos1 = 90; // Establece la posición inicial del primer servo en 90 grados
+int servoPos2 = 90; // Establece la posición inicial del segundo servo en 90 grados
+
+void setup() {
+  servo1.attach(9); // Asigna el pin 9 como salida PWM para el primer servo
+  servo2.attach(10); // Asigna el pin 10 como salida PWM para el segundo servo
+}
+
+void loop() {
+  joystickValX = analogRead(joystickX); // Lee el valor actual del joystick en el eje X
+  joystickValY = analogRead(joystickY); // Lee el valor actual del joystick en el eje Y
+
+  int mappedValX = map(joystickValX, 0, 1023, 0, 180); // Mapea el valor del joystick en el eje X a un rango de 0 a 180 grados
+  int mappedValY = map(joystickValY, 0, 1023, 0, 180); // Mapea el valor del joystick en el eje Y a un rango de 0 a 180 grados
+
+  // Verifica si la diferencia entre la posición actual del servo y la posición actual del joystick es mayor a 2 grados
+  if (abs(mappedValX - servoPos1) > 2 || abs(mappedValY - servoPos2) > 2) {
+    servoPos1 = mappedValX; // Actualiza la posición del primer servo con la nueva posición del joystick en el eje X
+    servoPos2 = mappedValY; // Actualiza la posición del segundo servo con la nueva posición del joystick en el eje Y
+  }
+
+  servo1.write(servoPos1); // Mueve el primer servo a la nueva posición
+  servo2.write(servoPos2); // Mueve el segundo servo a la nueva posición
+  
+  delay(10); // Espera 10 milisegundos antes de volver a leer los valores del joystick
+}
+
